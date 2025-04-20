@@ -28,6 +28,7 @@ export default function App() {
 
 function Tabbed({ content }) {
   const [activeTab, setActiveTab] = useState(0);
+
   return (
     <div>
       <div className="tabs">
@@ -36,11 +37,9 @@ function Tabbed({ content }) {
         <Tab num={2} activeTab={activeTab} onClick={setActiveTab} />
         <Tab num={3} activeTab={activeTab} onClick={setActiveTab} />
       </div>
+
       {activeTab <= 2 ? (
-        <Tabcontent
-          item={content.at(activeTab)}
-          key={content.at(activeTab).summary}
-        />
+        <TabContent item={content.at(activeTab)} />
       ) : (
         <DifferentContent />
       )}
@@ -48,7 +47,7 @@ function Tabbed({ content }) {
   );
 }
 
-function Tab({ activeTab, num, onClick }) {
+function Tab({ num, activeTab, onClick }) {
   return (
     <button
       className={activeTab === num ? "tab active" : "tab"}
@@ -59,23 +58,26 @@ function Tab({ activeTab, num, onClick }) {
   );
 }
 
-function Tabcontent({ item }) {
+function TabContent({ item }) {
   const [showDetails, setShowDetails] = useState(true);
-  const [like, setLikes] = useState(0);
+  const [likes, setLikes] = useState(0);
 
   function handleInc() {
-    setLikes(like + 1);
+    setLikes(likes + 1);
   }
+
   return (
     <div className="tab-content">
-      <h4>{item.summary}Hellow</h4>
+      <h4>{item.summary}</h4>
       {showDetails && <p>{item.details}</p>}
+
       <div className="tab-actions">
         <button onClick={() => setShowDetails((h) => !h)}>
           {showDetails ? "Hide" : "Show"} details
         </button>
+
         <div className="hearts-counter">
-          <span>{like} ❤️</span>
+          <span>{likes} ❤️</span>
           <button onClick={handleInc}>+</button>
           <button>+++</button>
         </div>
